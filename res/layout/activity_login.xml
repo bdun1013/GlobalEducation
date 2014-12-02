@@ -21,13 +21,13 @@
         android:hint="@string/password_hint"/>
     
     <Button android:id="@+id/login_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
         android:text="@string/login_string"/>
     
     <Button android:id="@+id/create_account"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_button"
         android:text="@string/create_acc_string"/>
