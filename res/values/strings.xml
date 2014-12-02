@@ -29,6 +29,8 @@
     <string name="add_child_string">Add Child</string>
     <string name="invalid_username">Username must be at least 6 characters long</string>
     <string name="nonmatching_passwords">The two passwords you entered do not match</string>
+    <string name="intended_child_un">Enter Child Username</string>
+    <string name="intended_child_pw">Enter Child Password</string>
     
     <string-array name="scope_selector">
         <item>City</item>
