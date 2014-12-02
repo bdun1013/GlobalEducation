@@ -26,10 +26,16 @@
         android:layout_below="@id/password"
         android:text="@string/login_string"/>
     
-    <Button android:id="@+id/create_account"
+    <Button android:id="@+id/create_parent_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/login_button"
+        android:layout_alignParentBottom="true"
+        android:text="@string/create_par_acc_string"/>
+    
+    <Button android:id="@+id/create_child_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/create_parent_account"
         android:text="@string/create_acc_string"/>
 
 </RelativeLayout>

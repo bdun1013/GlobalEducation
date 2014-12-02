@@ -7,7 +7,7 @@
 	<string name="username_hint">Enter Username</string>
 	<string name="password_hint">Enter Password</string>
 	<string name="login_string">Log In</string>
-	<string name="create_acc_string">Create New Account</string>
+	<string name="create_acc_string">Create New Child Account</string>
 	<string name="account_info_string">Please fill in the following fields to create your free account!</string>
     <string name="new_username_string">Enter Desired Username</string>
     <string name="new_password_string">Enter Desired Password</string>
@@ -25,6 +25,10 @@
     <string name="question_error">Error retrieving question information</string>
     <string name="correct_answer">That\'s right! Good job! :D</string>
     <string name="wrong_answer">Sorry, but that isn\'t right.</string>
+    <string name="create_par_acc_string">Create New Parent Account</string>
+    <string name="add_child_string">Add Child</string>
+    <string name="invalid_username">Username must be at least 6 characters long</string>
+    <string name="nonmatching_passwords">The two passwords you entered do not match</string>
     
     <string-array name="scope_selector">
         <item>City</item>

@@ -17,12 +17,23 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         
-        Button createAccountButton = (Button) findViewById(R.id.create_account);
-        createAccountButton.setOnClickListener(new OnClickListener() {
+        Button createChildAccountButton = (Button) findViewById(R.id.create_child_account);
+        createChildAccountButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(LoginActivity.this, CreateAccountActivity.class);
+				startActivity(i);
+			}
+        	
+        });
+        
+        Button createParentAccountButton = (Button) findViewById(R.id.create_parent_account);
+        createParentAccountButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(LoginActivity.this, CreateParentAccountActivity.class);
 				startActivity(i);
 			}
         	
