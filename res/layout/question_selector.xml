@@ -1,42 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<LinearLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    <TextView android:id="@+id/question_selector_text"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    
-    <Button android:id="@+id/math_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/math_string"/>
-    
-    <Button android:id="@+id/science_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/science_string"/>
-    
-    <Button android:id="@+id/english_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/english_string"/>
-    
-    <Button android:id="@+id/history_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/history_string"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/question_selector_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/math_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/math_string" />
     </LinearLayout>
-    
-    <Button android:id="@+id/parent_zone_button"
+
+    <Button
+        android:id="@+id/parent_zone_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/parent_zone_string"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:text="@string/parent_zone_string" />
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 public class LoginActivity extends Activity {
@@ -46,7 +47,9 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Add login functionality
 				
+				EditText userNameBox = (EditText) findViewById(R.id.username);
 				Intent i = new Intent(LoginActivity.this, DailyQuestionsActivity.class);
+				i.putExtra("Username", userNameBox.getText().toString());
 				startActivity(i);
 			}
         	

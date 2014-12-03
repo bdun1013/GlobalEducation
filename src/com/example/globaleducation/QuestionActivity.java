@@ -36,7 +36,7 @@ public class QuestionActivity extends Activity {
 			
 			final int correctChoice = getIntent().getIntExtra("Correct", 0);
 			
-			Button submitButton = (Button) findViewById(R.id.submit_button);
+			final Button submitButton = (Button) findViewById(R.id.submit_button);
 			submitButton.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -48,6 +48,8 @@ public class QuestionActivity extends Activity {
 						resultText.setText(R.string.correct_answer);
 					else
 						resultText.setText(R.string.wrong_answer);
+					
+					submitButton.setClickable(false);
 				}
 				
 				public boolean isAnswerCorrect(int correctChoice)
@@ -63,6 +65,16 @@ public class QuestionActivity extends Activity {
 					else if(correctChoice == 4 && buttonD.isChecked())
 						return true;
 					return false;
+				}
+				
+			});
+			
+			Button backButton = (Button) findViewById(R.id.back_button);
+			backButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					finish();
 				}
 				
 			});

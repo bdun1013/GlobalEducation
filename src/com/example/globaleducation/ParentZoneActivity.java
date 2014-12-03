@@ -23,6 +23,8 @@ public class ParentZoneActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.parent_zone);
 		
+		String username = getIntent().getStringExtra("Username");
+		
 		Spinner spinner = (Spinner) findViewById(R.id.range_spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.scope_selector, android.R.layout.simple_spinner_dropdown_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
