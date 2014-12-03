@@ -48,6 +48,8 @@
         <activity android:name=".CreateParentAccountActivity"
             android:label="Create Parent Account"/>
         
+        <receiver android:name=".AlarmReceiver" android:enabled="true"/>
+        <service android:name=".AlarmService"/>
     </application>
 
 </manifest>

@@ -1,6 +1,10 @@
 package com.example.globaleducation;
 
+import java.util.Calendar;
+
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +13,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class DailyQuestionsActivity extends Activity {
+	private AlarmManager alarmManager;
+	private Intent alarmIntent;
+	private PendingIntent pendingIntent;
+	private Calendar alarmStartTime;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -114,6 +122,8 @@ public class DailyQuestionsActivity extends Activity {
 			
 		});
 		
+		setAlarm();
+		
 		Button parentZoneButton = (Button) findViewById(R.id.parent_zone_button);
 		parentZoneButton.setOnClickListener(new OnClickListener() {
 
@@ -124,6 +134,47 @@ public class DailyQuestionsActivity extends Activity {
 			}
 			
 		});
+		
+		
+		//This is the code to (hopefully) notify the child once every 24 hours when a question is ready
+		//Notification will be at exactly 9:00 am every day
+		
+
+	}
+	
+	public void setAlarm(){
+		alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+		alarmIntent = new Intent(DailyQuestionsActivity.this, AlarmReceiver.class);
+		pendingIntent = PendingIntent.getBroadcast(DailyQuestionsActivity.this, 0, alarmIntent, 0);
+
+		alarmStartTime = Calendar.getInstance();
+		alarmStartTime.set(Calendar.HOUR_OF_DAY, 10);
+		alarmStartTime.set(Calendar.MINUTE, 00);
+		alarmStartTime.set(Calendar.SECOND, 0);
+		
+		Calendar currentTimeCal = Calendar.getInstance();
+		
+		long intendedTime = alarmStartTime.getTimeInMillis();
+		long currentTime = currentTimeCal.getTimeInMillis();
+		
+		if(intendedTime >= currentTime)
+			alarmManager.setRepeating(AlarmManager.RTC, intendedTime, getInterval(), pendingIntent);
+		else
+		{
+			alarmStartTime.add(Calendar.DAY_OF_MONTH, 1);
+			intendedTime = alarmStartTime.getTimeInMillis();
+			alarmManager.setRepeating(AlarmManager.RTC, intendedTime, getInterval(), pendingIntent);
+		}
+	}
+	
+	private int getInterval(){
+		 int days = 1;
+		 int hours = 24;
+		 int minutes = 60;
+		 int seconds = 60;
+		 int milliseconds = 1000;
+		 int repeatMS = days * hours * minutes * seconds * milliseconds;
+		 return repeatMS;
 	}
 
 }
