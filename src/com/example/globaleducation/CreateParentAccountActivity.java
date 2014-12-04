@@ -1,6 +1,13 @@
 package com.example.globaleducation;
 
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+
 import android.app.Activity;
+import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +49,8 @@ public class CreateParentAccountActivity extends Activity {
 				}
 				
 				//TODO Create account with given information
+				
+				new ParentSignupGetTask().execute(accountName, password);
 			}
 			
 		});
@@ -55,6 +64,39 @@ public class CreateParentAccountActivity extends Activity {
 			}
 			
 		});
+	}
+	
+	private class ParentSignupGetTask extends AsyncTask<String, Void, Void> {
+
+		AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
+
+		@Override
+		protected Void doInBackground(String... params) {
+			System.out.println(params[0] + " " + params[1]);
+			
+			String URL = "http://cmsc436.afh.co/addparent.php?username=" + params[0] + "&password=" + params[1];
+			HttpGet request = new HttpGet(URL);
+
+			try {
+
+				mClient.execute(request);
+
+			} catch (ClientProtocolException exception) {
+				exception.printStackTrace();
+			} catch (IOException exception) {
+				exception.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+
+			// TODO Sending back to login screen
+			mClient.close();
+			finish();
+
+		}
 	}
 
 }

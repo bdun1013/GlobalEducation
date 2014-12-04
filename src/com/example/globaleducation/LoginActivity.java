@@ -23,7 +23,7 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(LoginActivity.this, CreateAccountActivity.class);
+				Intent i = new Intent(LoginActivity.this, CreateChildAccountActivity.class);
 				startActivity(i);
 			}
         	
