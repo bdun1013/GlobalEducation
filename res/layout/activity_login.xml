@@ -20,10 +20,16 @@
         android:layout_below="@id/username"
         android:hint="@string/password_hint"/>
     
+    <CheckBox android:id="@+id/parent_checkbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/parent_check_string"
+        android:layout_below="@id/password"/>
+    
     <Button android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/password"
+        android:layout_below="@id/parent_checkbox"
         android:text="@string/login_string"/>
     
     <Button android:id="@+id/create_parent_account"

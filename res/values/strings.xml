@@ -33,6 +33,7 @@
     <string name="intended_child_pw">Enter Child Password</string>
     <string name="zip_code_string">Enter Zip Code</string>
     <string name="back_string">Go Back</string>
+    <string name="parent_check_string">I am a parent</string>
     
     <string-array name="scope_selector">
         <item>City</item>
