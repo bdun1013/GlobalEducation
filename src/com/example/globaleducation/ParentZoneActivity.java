@@ -1,8 +1,15 @@
 package com.example.globaleducation;
 
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ParentZoneActivity extends Activity {
 
@@ -22,8 +30,9 @@ public class ParentZoneActivity extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.parent_zone);
+		// TODO guarantee username is correct
 		
-		String username = getIntent().getStringExtra("Username");
+		final String parentUsername = getIntent().getStringExtra("username");
 		
 		Spinner spinner = (Spinner) findViewById(R.id.range_spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.scope_selector, android.R.layout.simple_spinner_dropdown_item);
@@ -57,9 +66,9 @@ public class ParentZoneActivity extends Activity {
 				AlertDialog.Builder builder = new AlertDialog.Builder(ParentZoneActivity.this);
 				LayoutInflater inflater = ParentZoneActivity.this.getLayoutInflater();
 				
-				builder.setView(inflater.inflate(R.layout.add_child_dialog, null));
+				final View dialogView = inflater.inflate(R.layout.add_child_dialog, null);
+				builder.setView(dialogView);
 				builder.setNegativeButton(R.string.cancel_string, new DialogInterface.OnClickListener() {
-
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -72,15 +81,10 @@ public class ParentZoneActivity extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						EditText childNameBox = (EditText) findViewById(R.id.intended_child_username);
-						String childName = childNameBox.getText().toString();
+						EditText childUsernameBox = (EditText) dialogView.findViewById(R.id.intended_child_username);
+						String childUsername = childUsernameBox.getText().toString();
 						
-						EditText childPassBox = (EditText) findViewById(R.id.intended_child_password);
-						String childPass = childPassBox.getText().toString();
-						
-						// TODO If UN and PW are valid, link parent and child accounts
-						
-						
+						new ChildParentLinkGetTask().execute(parentUsername, childUsername);
 					}
 					
 				});
@@ -91,4 +95,38 @@ public class ParentZoneActivity extends Activity {
 			
 		});
 	}
+		
+	private class ChildParentLinkGetTask extends AsyncTask<String, Void, Void> {
+
+		AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
+
+		@Override
+		protected Void doInBackground(String... params) {
+			
+			String URL = "http://cmsc436.afh.co/php/linkchild.php?parentUsername=" +
+						  params[0] + "&childUsername=" + params[1];
+			HttpGet request = new HttpGet(URL);
+
+			try {
+
+				mClient.execute(request);
+
+			} catch (ClientProtocolException exception) {
+				exception.printStackTrace();
+			} catch (IOException exception) {
+				exception.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+
+			mClient.close();
+			Toast.makeText(ParentZoneActivity.this, "Child Account Linked", Toast.LENGTH_LONG).show();
+			finish();
+
+		}
+	}
+	
 }

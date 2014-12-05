@@ -49,7 +49,7 @@ public class LoginActivity extends Activity {
 				
 				EditText userNameBox = (EditText) findViewById(R.id.username);
 				Intent i = new Intent(LoginActivity.this, DailyQuestionsActivity.class);
-				i.putExtra("Username", userNameBox.getText().toString());
+				i.putExtra("username", userNameBox.getText().toString());
 				startActivity(i);
 			}
         	

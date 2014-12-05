@@ -8,11 +8,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/intended_child_un"/>
-    
-    <EditText android:id="@+id/intended_child_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/intended_child_pw"/>
 
 </LinearLayout>

@@ -27,6 +27,8 @@ public class DailyQuestionsActivity extends Activity {
 		TextView textView = (TextView) findViewById(R.id.question_selector_text);
 			
 		//TODO Set name based on account information from server
+		final String parentUsername = getIntent().getStringExtra("username");
+		
 		textView.setText("Welcome back, *insert name here*!\n\nClick on one of the buttons to" +
 				" try your daily question in each subject!");
 		
@@ -62,6 +64,7 @@ public class DailyQuestionsActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(DailyQuestionsActivity.this, ParentZoneActivity.class);
+				i.putExtra("username", parentUsername);
 				startActivity(i);
 			}
 			

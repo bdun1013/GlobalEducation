@@ -48,8 +48,6 @@ public class CreateParentAccountActivity extends Activity {
 					return;
 				}
 				
-				//TODO Create account with given information
-				
 				new ParentSignupGetTask().execute(accountName, password);
 			}
 			
@@ -72,9 +70,8 @@ public class CreateParentAccountActivity extends Activity {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			System.out.println(params[0] + " " + params[1]);
 			
-			String URL = "http://cmsc436.afh.co/addparent.php?username=" + params[0] + "&password=" + params[1];
+			String URL = "http://cmsc436.afh.co/php/addparent.php?username=" + params[0] + "&password=" + params[1];
 			HttpGet request = new HttpGet(URL);
 
 			try {
@@ -92,8 +89,8 @@ public class CreateParentAccountActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 
-			// TODO Sending back to login screen
 			mClient.close();
+			Toast.makeText(CreateParentAccountActivity.this, "Account Created", Toast.LENGTH_LONG).show();
 			finish();
 
 		}
