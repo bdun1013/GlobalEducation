@@ -122,11 +122,13 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(List<String> result) {
 			
+			mClient.close();
+			
 			String login = result.get(0);
 			// TODO Send parent and child to different activities
 
 			if (login.equals("parent")) {
-				Intent i = new Intent(LoginActivity.this, DailyQuestionsActivity.class);
+				Intent i = new Intent(LoginActivity.this, ParentZoneActivity.class);
 				i.putExtra("username", username);
 				startActivity(i);
 			} 

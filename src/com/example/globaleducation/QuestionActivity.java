@@ -1,15 +1,20 @@
 package com.example.globaleducation;
 
+import java.io.IOException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
 import android.app.Activity;
+import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class QuestionActivity extends Activity {
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -34,29 +39,27 @@ public class QuestionActivity extends Activity {
 			final RadioButton buttonD = (RadioButton) findViewById(R.id.option_d);
 			buttonD.setText(getIntent().getStringExtra("ChoiceD"));
 			
-			final int correctChoice = getIntent().getIntExtra("Correct", 0);
+			final int correctChoice = Integer.parseInt(getIntent().getStringExtra("Correct"));
+			final String category = getIntent().getStringExtra("Category");
+			final String questionID = getIntent().getStringExtra("QuestionID");
+			final String username = getIntent().getStringExtra("Username");
 			
 			final Button submitButton = (Button) findViewById(R.id.submit_button);
 			submitButton.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					// TODO Send right/wrong to the server to track stats
+					String isCorrect = isAnswerCorrect(correctChoice) ? "Y" : "N";
 					
-					TextView resultText = (TextView) findViewById(R.id.result_text);
-					if(isAnswerCorrect(correctChoice))
-						resultText.setText(R.string.correct_answer);
-					else
-						resultText.setText(R.string.wrong_answer);
+					new SubmitQuestionGetTask().execute(username, questionID, isCorrect);
 					
-					submitButton.setClickable(false);
+					
+					
 				}
 				
 				public boolean isAnswerCorrect(int correctChoice)
 				{
-					if(correctChoice == 0)
-						Toast.makeText(getApplicationContext(), R.string.question_error, Toast.LENGTH_LONG).show();
-					else if(correctChoice == 1 && buttonA.isChecked())
+					if(correctChoice == 1 && buttonA.isChecked())
 						return true;
 					else if(correctChoice == 2 && buttonB.isChecked())
 						return true;
@@ -69,15 +72,33 @@ public class QuestionActivity extends Activity {
 				
 			});
 			
-			Button backButton = (Button) findViewById(R.id.back_button);
-			backButton.setOnClickListener(new OnClickListener() {
+		}
+	}
+	
+    private class SubmitQuestionGetTask extends AsyncTask<String, Void, Void> {
 
-				@Override
-				public void onClick(View v) {
-					finish();
-				}
-				
-			});
+		AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
+
+		@Override
+		protected Void doInBackground(String... params) {
+			
+			String URL = "http://cmsc436.afh.co/php/submitquestion.php?username=" + params[0] + "&questionID=" + params[1] + "&isCorrect=" + params[2];
+			HttpGet request = new HttpGet(URL);
+			try {
+
+				mClient.execute(request);
+
+			} catch (ClientProtocolException exception) {
+				exception.printStackTrace();
+			} catch (IOException exception) {
+				exception.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			mClient.close();
 		}
 	}
 

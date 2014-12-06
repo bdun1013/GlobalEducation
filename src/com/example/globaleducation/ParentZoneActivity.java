@@ -30,7 +30,6 @@ public class ParentZoneActivity extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.parent_zone);
-		// TODO guarantee username is correct
 		
 		final String parentUsername = getIntent().getStringExtra("username");
 		
