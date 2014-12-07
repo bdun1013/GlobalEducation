@@ -1,8 +1,10 @@
 package com.example.globaleducation;
 
 import java.io.IOException;
+
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
