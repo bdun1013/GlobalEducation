@@ -25,6 +25,7 @@ import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -136,17 +137,17 @@ public class ParentZoneActivity extends Activity {
 		});
 	}
 	
-	private class StatsGetTask extends AsyncTask<String, Void, Map<Double,Double>> {
+	private class StatsGetTask extends AsyncTask<String, Void, List<Pair<Double,Double>>> {
 
 		AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
 		
 		@Override
-		protected Map<Double,Double> doInBackground(String... params) {
+		protected List<Pair<Double,Double>> doInBackground(String... params) {
 			
 			String childUsername = params[0];
 			String locationType = params[1];
 			
-			String URL = "http://cmsc436.afh.co/php/stats.php?childUsername=" + childUsername + "&locationType=" + locationType;
+			String URL = "http://cmsc436.afh.co/php/getstats.php?username=" + childUsername + "&location=" + locationType;
 			HttpGet request = new HttpGet(URL);
 			
 			JSONStatsResponseHandler responseHandler = new JSONStatsResponseHandler();
@@ -165,33 +166,32 @@ public class ParentZoneActivity extends Activity {
 		}
 		
 		@Override
-		protected void onPostExecute(Map<Double,Double> result) {
+		protected void onPostExecute(List<Pair<Double,Double>> result) {
 			mClient.close();
 		}
 		
 	}
 	
-	private class JSONStatsResponseHandler implements ResponseHandler<Map<Double, Double>> {
+	private class JSONStatsResponseHandler implements ResponseHandler<List<Pair<Double, Double>>> {
 
 		@Override
-		public Map<Double, Double> handleResponse(HttpResponse response)
+		public List<Pair<Double, Double>> handleResponse(HttpResponse response)
 				throws ClientProtocolException, IOException {
 			
-			Map<Double, Double> result = new LinkedHashMap<Double,Double>();
+			List<Pair<Double, Double>> result = new ArrayList<Pair<Double,Double>>();
 			String JSONResponse = new BasicResponseHandler()
 					.handleResponse(response);
 			
 			try {
 
-				JSONObject responseObject = (JSONObject) new JSONTokener(JSONResponse).nextValue();
-				JSONArray responseArray = responseObject.getJSONArray("stats");
+				JSONArray responseArray = (JSONArray) new JSONTokener(JSONResponse).nextValue();
 				
 				for (int i = 0; i < responseArray.length(); i ++) {
 					JSONObject user = (JSONObject) responseArray.get(i);
-					Double numCorrect = Double.parseDouble(user.getString("numCorrect"));
-					Double numTotal = Double.parseDouble(user.getString("numTotal"));
+					Double numCorrect = Double.parseDouble(user.getString("correct"));
+					Double numTotal = Double.parseDouble(user.getString("total"));
 					
-					result.put(numCorrect, numTotal);
+					result.add(new Pair<Double, Double>(numCorrect, numTotal));
 				}
 				
 			} catch (JSONException e) {
@@ -245,7 +245,30 @@ public class ParentZoneActivity extends Activity {
 		statsTask.execute(childUsername, locationType);
 		
 		try {
-			Map<Double, Double> statsMap = statsTask.get();
+			List<Pair<Double, Double>> statsList = statsTask.get();
+			
+			// Current child is first in the list
+			double currentChildCorrect = statsList.get(0).first;
+			double currentChildTotal = statsList.get(0).second;
+			double currentChildPercent = currentChildCorrect / currentChildTotal;
+			
+			
+			// Get the rest of the users' percentages
+			List<Double> percents = new ArrayList<Double>();
+			for (Pair<Double,Double> user : statsList) {
+				percents.add(user.first / user.second);
+			}
+			
+			// Calculate the current child's percentile
+			double betterThan = 0;
+			for (Double userPercent : percents) {
+				if (currentChildPercent > userPercent) {
+					betterThan ++;
+				}
+			}
+			
+			double currentChildPercentile = betterThan / percents.size();
+			
 			
 			
 			
