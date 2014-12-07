@@ -41,8 +41,8 @@ public class DailyQuestionsActivity extends Activity {
 		
 		final String childUsername = getIntent().getStringExtra("username");
 		
-		textView.setText("Welcome back, " + childUsername + "\n\nClick on one of the buttons to" +
-				" try your daily question in each subject!");
+		textView.setText("Welcome back, " + childUsername + "\n\nClick the button below" +
+				" try your daily question!");
 		
 		Button mathButton = (Button) findViewById(R.id.math_button);
 		mathButton.setOnClickListener(new OnClickListener() {
