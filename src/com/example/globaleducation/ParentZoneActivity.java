@@ -34,6 +34,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,7 @@ public class ParentZoneActivity extends Activity {
 		ArrayAdapter<CharSequence> rangeAdapter = ArrayAdapter.createFromResource(this, R.array.scope_selector, android.R.layout.simple_spinner_dropdown_item);
 		rangeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		rangeSpinner.setAdapter(rangeAdapter);
+		
 		rangeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -97,7 +99,7 @@ public class ParentZoneActivity extends Activity {
 		});
 		
 		TextView parentText = (TextView) findViewById(R.id.parent_view_info);
-		parentText.setText("Here is how *insert name here* is doing relative to:");
+		parentText.setText("Show statistics relative to:");
 		
 		Button addChildButton = (Button) findViewById(R.id.add_child_button);
 		addChildButton.setOnClickListener(new OnClickListener() {
