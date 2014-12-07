@@ -36,6 +36,10 @@
     <string name="parent_check_string">I am a parent</string>
     <string name="select_child_string">Which child would you like to see data for\?</string>
     <string name="parent_view_string">See info relative to\:</string>
+    <string name="total_questions_string">Total Questions Answered\: </string>
+    <string name="percentage_string">Percentage Correct\: </string>
+    <string name="percentile_string">Child Percentile\: </string>
+    <string name="statistics_string">Show Statistics</string>
     
     <string-array name="scope_selector">
         <item>City</item>

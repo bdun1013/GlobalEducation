@@ -27,6 +27,68 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/parent_view_info"/>
     
+    <Button android:id="@+id/statistics_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/range_spinner"
+        android:text="@string/statistics_string"/>
+    
+    <TextView android:id="@+id/total_questions_info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/statistics_button"
+        android:text="@string/total_questions_string"
+        android:textSize="15sp"/>
+    
+    <TextView android:id="@+id/total_questions_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/total_questions_info_text"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+    
+    <TextView android:id="@+id/percentage_info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/total_questions_info_text"
+        android:text="@string/percentage_string"
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"/>
+    
+    <TextView android:id="@+id/percentage_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/percentage_info_text"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+    
+    <ProgressBar android:id="@+id/percentage_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/percentage_info_text"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
+    
+    <TextView android:id="@+id/percentile_info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/percentage_progress_bar"
+        android:layout_marginTop="5dp"
+        android:text="@string/percentile_string"
+        android:textSize="15sp"/>
+    
+    <TextView android:id="@+id/percentile_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/percentile_info_text"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+    
+    <ProgressBar android:id="@+id/percentile_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/percentile_info_text"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
+    
     <Button android:id="@+id/add_child_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
