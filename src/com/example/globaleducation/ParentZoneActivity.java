@@ -33,11 +33,11 @@ public class ParentZoneActivity extends Activity {
 		
 		final String parentUsername = getIntent().getStringExtra("username");
 		
-		Spinner spinner = (Spinner) findViewById(R.id.range_spinner);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.scope_selector, android.R.layout.simple_spinner_dropdown_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		final Spinner rangeSpinner = (Spinner) findViewById(R.id.range_spinner);
+		ArrayAdapter<CharSequence> rangeAdapter = ArrayAdapter.createFromResource(this, R.array.scope_selector, android.R.layout.simple_spinner_dropdown_item);
+		rangeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		rangeSpinner.setAdapter(rangeAdapter);
+		rangeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
@@ -53,6 +53,24 @@ public class ParentZoneActivity extends Activity {
 			}
 			
 		});
+		
+//		final Spinner childSpinner = (Spinner) findViewById(R.id.child_spinner);
+//		childSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+//
+//			@Override
+//			public void onItemSelected(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> parent) {
+//				// Nothing
+//				
+//			}
+//			
+//		});
 		
 		TextView parentText = (TextView) findViewById(R.id.parent_view_info);
 		parentText.setText("Here is how *insert name here* is doing relative to:");
