@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
+import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -13,6 +13,7 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -74,23 +75,25 @@ public class ParentZoneActivity extends Activity {
 			
 		});
 		
-//		final Spinner childSpinner = (Spinner) findViewById(R.id.child_spinner);
-//		childSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-//
-//			@Override
-//			public void onItemSelected(AdapterView<?> parent, View view,
-//					int position, long id) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onNothingSelected(AdapterView<?> parent) {
-//				// Nothing
-//				
-//			}
-//			
-//		});
+		
+		childSpinner = (Spinner) findViewById(R.id.child_spinner);
+		new GetChildrenGetTask().execute(parentUsername);
+		childSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// Nothing
+				
+			}
+			
+		});
 		
 		TextView parentText = (TextView) findViewById(R.id.parent_view_info);
 		parentText.setText("Here is how *insert name here* is doing relative to:");
@@ -252,6 +255,73 @@ public class ParentZoneActivity extends Activity {
 		} catch (ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+    private class GetChildrenGetTask extends AsyncTask<String, Void, List<String>> {
+
+		AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
+
+		@Override
+		protected List<String> doInBackground(String... params) {
+			
+			String URL = "http://cmsc436.afh.co/php/getchildren.php?username=" + params[0];
+			HttpGet request = new HttpGet(URL);
+			JSONResponseHandler responseHandler = new JSONResponseHandler();
+			try {
+
+				return mClient.execute(request, responseHandler);
+
+			} catch (ClientProtocolException exception) {
+				exception.printStackTrace();
+			} catch (IOException exception) {
+				exception.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(List<String> result) {
+			
+			mClient.close();
+			
+			childSpinner.setAdapter(new ArrayAdapter<String>(
+					ParentZoneActivity.this,
+					android.R.layout.simple_spinner_dropdown_item, result));
+
+		}
+	}
+    
+    private class JSONResponseHandler implements ResponseHandler<List<String>> {
+
+		@Override
+		public List<String> handleResponse(HttpResponse response)
+				throws ClientProtocolException, IOException {
+			
+			List<String> result = new ArrayList<String>();
+			String JSONResponse = new BasicResponseHandler()
+					.handleResponse(response);
+			
+			try {
+
+				JSONObject responseObject = (JSONObject) new JSONTokener(JSONResponse).nextValue();
+				
+				
+				int childNumber = 1;
+				String childUsername;
+				
+				while(responseObject.getString("child" + childNumber) != null) {
+					childUsername = responseObject.getString("child" + childNumber);
+					result.add(childUsername);
+					childNumber++;
+				}
+				
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+			return result;
 		}
 	}
 	

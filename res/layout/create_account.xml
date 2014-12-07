@@ -11,7 +11,8 @@
             android:id="@+id/account_screen_instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/account_info_string" />
+            android:text="@string/account_info_string"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/new_username"
@@ -63,7 +64,8 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:text="@string/grade_select_text"
-            android:layout_below="@id/country_spinner" />
+            android:layout_below="@id/country_spinner"
+            android:textSize="20sp" />
 
         <NumberPicker
             android:id="@+id/grade_picker"
