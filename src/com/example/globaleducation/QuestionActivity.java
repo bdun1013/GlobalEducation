@@ -4,6 +4,8 @@ import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -53,7 +55,42 @@ public class QuestionActivity extends Activity {
 					
 					new SubmitQuestionGetTask().execute(username, questionID, isCorrect);
 					
+					AlertDialog.Builder builder = new AlertDialog.Builder(QuestionActivity.this);
 					
+					if(isCorrect.equals("Y"))
+					{
+						builder.setTitle("Correct!");
+					}
+					
+					else 
+					{
+						builder.setTitle("Incorrect");
+					}
+					
+					char c;
+					
+					if(buttonA.isChecked())
+						c = '1';
+					else if(buttonB.isChecked())
+						c = '2';
+					else if(buttonC.isChecked())
+						c = '3';
+					else
+						c = '4';
+					
+					String message = "You answered: " + c +
+							"\nCorrect answer: " + correctChoice;
+					builder.setMessage(message);
+					
+					builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();	
+						}
+					});
+					
+					builder.create().show();
 					
 				}
 				
