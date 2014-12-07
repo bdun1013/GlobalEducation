@@ -4,10 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    <TextView android:id="@+id/select_child_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_child_string"/>
+    
+    <Spinner android:id="@+id/child_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/select_child_text"/>
 
     <TextView android:id="@+id/parent_view_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/child_spinner"
+        android:text="@string/parent_view_string"/>
     
     <Spinner android:id="@+id/range_spinner"
         android:layout_width="match_parent"
