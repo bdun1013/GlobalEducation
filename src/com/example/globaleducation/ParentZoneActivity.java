@@ -1,9 +1,21 @@
 package com.example.globaleducation;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +23,7 @@ import android.content.DialogInterface;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +37,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ParentZoneActivity extends Activity {
+	
+	private Spinner rangeSpinner;
+	private Spinner childSpinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -33,7 +49,7 @@ public class ParentZoneActivity extends Activity {
 		
 		final String parentUsername = getIntent().getStringExtra("username");
 		
-		final Spinner rangeSpinner = (Spinner) findViewById(R.id.range_spinner);
+		rangeSpinner = (Spinner) findViewById(R.id.range_spinner);
 		ArrayAdapter<CharSequence> rangeAdapter = ArrayAdapter.createFromResource(this, R.array.scope_selector, android.R.layout.simple_spinner_dropdown_item);
 		rangeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		rangeSpinner.setAdapter(rangeAdapter);
@@ -43,6 +59,10 @@ public class ParentZoneActivity extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Retrieve and display statistics depending on what scale the parent has selected in the spinner
+				
+				
+				
+				
 				
 			}
 
@@ -112,6 +132,73 @@ public class ParentZoneActivity extends Activity {
 			
 		});
 	}
+	
+	private class StatsGetTask extends AsyncTask<String, Void, Map<Double,Double>> {
+
+		AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
+		
+		@Override
+		protected Map<Double,Double> doInBackground(String... params) {
+			
+			String childUsername = params[0];
+			String locationType = params[1];
+			
+			String URL = "http://cmsc436.afh.co/php/stats.php?childUsername=" + childUsername + "&locationType=" + locationType;
+			HttpGet request = new HttpGet(URL);
+			
+			JSONStatsResponseHandler responseHandler = new JSONStatsResponseHandler();
+			
+			try {
+				return mClient.execute(request, responseHandler);
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Map<Double,Double> result) {
+			mClient.close();
+		}
+		
+	}
+	
+	private class JSONStatsResponseHandler implements ResponseHandler<Map<Double, Double>> {
+
+		@Override
+		public Map<Double, Double> handleResponse(HttpResponse response)
+				throws ClientProtocolException, IOException {
+			
+			Map<Double, Double> result = new LinkedHashMap<Double,Double>();
+			String JSONResponse = new BasicResponseHandler()
+					.handleResponse(response);
+			
+			try {
+
+				JSONObject responseObject = (JSONObject) new JSONTokener(JSONResponse).nextValue();
+				JSONArray responseArray = responseObject.getJSONArray("stats");
+				
+				for (int i = 0; i < responseArray.length(); i ++) {
+					JSONObject user = (JSONObject) responseArray.get(i);
+					Double numCorrect = Double.parseDouble(user.getString("numCorrect"));
+					Double numTotal = Double.parseDouble(user.getString("numTotal"));
+					
+					result.put(numCorrect, numTotal);
+				}
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+	}
+	
 		
 	private class ChildParentLinkGetTask extends AsyncTask<String, Void, Void> {
 
@@ -143,6 +230,28 @@ public class ParentZoneActivity extends Activity {
 			Toast.makeText(ParentZoneActivity.this, "Child Account Linked", Toast.LENGTH_LONG).show();
 			finish();
 
+		}
+	}
+	
+	private void updateStats() {
+		StatsGetTask statsTask = new StatsGetTask();
+		
+		String childUsername = childSpinner.getSelectedItem().toString();
+		String locationType = rangeSpinner.getSelectedItem().toString();
+		
+		statsTask.execute(childUsername, locationType);
+		
+		try {
+			Map<Double, Double> statsMap = statsTask.get();
+			
+			
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
