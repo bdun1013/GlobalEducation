@@ -7,7 +7,8 @@
     <TextView android:id="@+id/select_child_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/select_child_string"/>
+        android:text="@string/select_child_string"
+        android:textSize="20sp"/>
     
     <Spinner android:id="@+id/child_spinner"
         android:layout_width="match_parent"
@@ -18,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/child_spinner"
-        android:text="@string/parent_view_string"/>
+        android:text="@string/parent_view_string"
+        android:textSize="20sp"/>
     
     <Spinner android:id="@+id/range_spinner"
         android:layout_width="match_parent"

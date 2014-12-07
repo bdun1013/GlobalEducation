@@ -13,7 +13,7 @@
     <string name="new_password_string">Enter Desired Password</string>
     <string name="new_password_confirm_string">Confirm Desired Password</string>
     <string name="new_name_string">Enter Student\'s First Name</string>
-    <string name="grade_select_text">Use the following number picker to select the student\'s grade level.</string>
+    <string name="grade_select_text">Use the following number picker to select your grade level.</string>
     <string name="cancel_string">Cancel</string>
     <string name="math_string">Go To Daily Question</string>
     <string name="science_string">Science</string>
