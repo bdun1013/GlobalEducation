@@ -40,9 +40,11 @@ public class CreateChildAccountActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
         
-        final NumberPicker gradePicker = (NumberPicker) findViewById(R.id.grade_picker);
-        gradePicker.setMinValue(1);
-        gradePicker.setMaxValue(8);
+        final Spinner gradeSpinner = (Spinner) findViewById(R.id.grade_picker);
+        
+//        final NumberPicker gradePicker = (NumberPicker) findViewById(R.id.grade_picker);
+//        gradePicker.setMinValue(1);
+//        gradePicker.setMaxValue(8);
         
         Spinner countrySpinner = (Spinner) findViewById(R.id.country_spinner);
         
@@ -58,7 +60,12 @@ public class CreateChildAccountActivity extends Activity {
 			countries = countryListTask.get();
 			Log.i("GlobalEducation", "Finished Async Task");
 			for (String country : (countries.keySet())) {
-				adapter.add(country);
+				if (country.equals("United States")) {
+					adapter.insert(country, 0);
+				}
+				else {
+					adapter.add(country);
+				}
 			}
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
@@ -107,7 +114,7 @@ public class CreateChildAccountActivity extends Activity {
 				EditText nameBox = (EditText) findViewById(R.id.student_name);
 				String name = nameBox.getText().toString();
 				
-				int grade = gradePicker.getValue();
+				String grade = gradeSpinner.getSelectedItem().toString();
 				
 				EditText zipBox = (EditText) findViewById(R.id.zip_code_text);
 				String zip = zipBox.getText().toString();
@@ -126,7 +133,7 @@ public class CreateChildAccountActivity extends Activity {
 					city = locationArray.get(0);
 					state = locationArray.get(1);
 					
-					new ChildSignupGetTask().execute(accountName, password, Integer.toString(grade), city, 
+					new ChildSignupGetTask().execute(accountName, password, grade, city, 
 							 state, country, name);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block

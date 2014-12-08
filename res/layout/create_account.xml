@@ -1,91 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/account_screen_instructions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/account_info_string"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/new_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/new_username_string"
-            android:layout_below="@id/account_screen_instructions" />
-
-        <EditText
-            android:id="@+id/new_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/new_password_string"
-            android:inputType="textPassword"
-            android:layout_below="@id/new_username" />
-
-        <EditText
-            android:id="@+id/new_password_confirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/new_password_confirm_string"
-            android:inputType="textPassword"
-            android:layout_below="@id/new_password" />
-
-        <EditText
-            android:id="@+id/student_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/new_name_string"
-            android:layout_below="@id/new_password_confirm" />
-
-        <EditText
-            android:id="@+id/zip_code_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/zip_code_string"
-            android:inputType="number" 
-            android:layout_below="@id/student_name"/>
-
-        <Spinner
-            android:id="@+id/country_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
-            android:layout_below="@id/zip_code_text"/>
-        
-        <TextView
-            android:id="@+id/grade_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:text="@string/grade_select_text"
-            android:layout_below="@id/country_spinner"
-            android:textSize="20sp" />
-
-        <NumberPicker
-            android:id="@+id/grade_picker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/grade_text"/>
+    <LinearLayout
+        android:id="@+id/accountButtons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/confirm_new_account_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/create_acc_string" 
-            android:layout_below="@id/grade_picker"/>
+            android:text="@string/create_acc_string" />
 
         <Button
             android:id="@+id/cancel_acc_create_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cancel_string" 
-            android:layout_below="@id/confirm_new_account_button"/>
-    </RelativeLayout>
+            android:text="@string/cancel_string" />
+    </LinearLayout>
 
-</ScrollView>
+    <ScrollView
+        android:id="@+id/accountFieldsScroll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/accountButtons"
+        android:layout_alignParentTop="true" >
+
+        <LinearLayout
+            android:id="@+id/accountFields"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/account_screen_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/account_info_string"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/new_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_username_string" />
+
+            <EditText
+                android:id="@+id/new_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_password_string"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/new_password_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_password_confirm_string"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/student_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_name_string" />
+
+            <EditText
+                android:id="@+id/zip_code_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/zip_code_string"
+                android:inputType="number" />
+
+            <Spinner
+                android:id="@+id/country_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/grade_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:text="@string/grade_select_text"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/grade_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/grades" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
