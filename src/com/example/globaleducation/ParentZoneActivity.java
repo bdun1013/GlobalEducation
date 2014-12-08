@@ -123,7 +123,8 @@ public class ParentZoneActivity extends Activity {
 
 								new ChildParentLinkGetTask().execute(
 										parentUsername, childUsername);
-								((ArrayAdapter<String>) childSpinner.getAdapter()).add(childUsername);
+								((ArrayAdapter<String>) childSpinner
+										.getAdapter()).add(childUsername);
 							}
 
 						});
@@ -296,15 +297,22 @@ public class ParentZoneActivity extends Activity {
 				}
 
 				// Calculate the current child's percentile
-				double betterThan = 0;
-				for (Double userPercent : percents) {
-					if (currentChildPercent > userPercent) {
-						betterThan++;
-					}
-				}
 
-				Double currentChildPercentile = betterThan / percents.size()
-						* 100;
+				Double currentChildPercentile;
+				if (percents.size() != 0) {
+					double betterThan = 0;
+					for (Double userPercent : percents) {
+						if (currentChildPercent > userPercent) {
+							betterThan++;
+						}
+					}
+
+					currentChildPercentile = betterThan / percents.size() * 100;
+				} else {
+					// If there are no other users in the area then set
+					// percentile to 100
+					currentChildPercentile = 100.;
+				}
 
 				// Update displayed stats info
 				totalText
