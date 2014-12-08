@@ -237,7 +237,8 @@ public class ParentZoneActivity extends Activity {
 			
 			// Get the rest of the users' percentages
 			List<Double> percents = new ArrayList<Double>();
-			for (Pair<Double,Double> user : statsList) {
+			for (int i = 1; i < statsList.size(); i++) {
+				Pair<Double,Double> user = statsList.get(i);
 				percents.add(user.first / user.second);
 			}
 			
