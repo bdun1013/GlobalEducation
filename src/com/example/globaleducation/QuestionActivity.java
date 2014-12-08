@@ -67,19 +67,30 @@ public class QuestionActivity extends Activity {
 						builder.setTitle("Incorrect");
 					}
 
-					char c;
+					String ans;
 
 					if (buttonA.isChecked())
-						c = '1';
+						ans = buttonA.getText().toString();
 					else if (buttonB.isChecked())
-						c = '2';
+						ans = buttonB.getText().toString();
 					else if (buttonC.isChecked())
-						c = '3';
+						ans = buttonC.getText().toString();
 					else
-						c = '4';
+						ans = buttonD.getText().toString();
+					
+					String correctAns;
+					
+					if(correctChoice == 1)
+						correctAns = buttonA.getText().toString();
+					else if(correctChoice == 2)
+						correctAns = buttonB.getText().toString();
+					else if(correctChoice == 3)
+						correctAns = buttonC.getText().toString();
+					else
+						correctAns = buttonD.getText().toString();
 
-					String message = "You answered: " + c
-							+ "\nCorrect answer: " + correctChoice;
+					String message = "You answered: " + ans
+							+ "\nCorrect answer: " + correctAns;
 					builder.setMessage(message);
 
 					builder.setPositiveButton("OK",
