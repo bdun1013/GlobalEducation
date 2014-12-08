@@ -1,9 +1,7 @@
 package com.example.globaleducation;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.ArrayList;
 
@@ -24,13 +22,10 @@ import android.content.DialogInterface;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,12 +38,24 @@ public class ParentZoneActivity extends Activity {
 	
 	private Spinner rangeSpinner;
 	private Spinner childSpinner;
+	private TextView totalText;
+	private TextView percentageText;
+	private TextView percentileText;
+	private ProgressBar percentageBar;
+	private ProgressBar percentileBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.parent_zone);
+		
+		totalText = (TextView) findViewById(R.id.total_questions_display);
+		percentageText = (TextView) findViewById(R.id.percentage_text);
+		percentileText = (TextView) findViewById(R.id.percentile_text);
+		percentageBar = (ProgressBar) findViewById(R.id.percentage_progress_bar);
+		percentileBar = (ProgressBar) findViewById(R.id.percentile_progress_bar);
+		
 		
 		final String parentUsername = getIntent().getStringExtra("username");
 		
@@ -57,49 +64,22 @@ public class ParentZoneActivity extends Activity {
 		rangeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		rangeSpinner.setAdapter(rangeAdapter);
 		
-		rangeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Retrieve and display statistics depending on what scale the parent has selected in the spinner
-				
-				
-				
-				
-				
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// Nothing should happen if nothing is selected
-				
-			}
-			
-		});
-		
-		
 		childSpinner = (Spinner) findViewById(R.id.child_spinner);
 		new GetChildrenGetTask().execute(parentUsername);
-		childSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+		TextView parentText = (TextView) findViewById(R.id.parent_view_info);
+		parentText.setText("Show statistics relative to:");
+		
+		Button statsButton = (Button) findViewById(R.id.statistics_button);
+		statsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				
-				
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// Nothing
+			public void onClick(View v) {
+				updateStats();
 				
 			}
 			
 		});
-		
-		TextView parentText = (TextView) findViewById(R.id.parent_view_info);
-		parentText.setText("Show statistics relative to:");
 		
 		Button addChildButton = (Button) findViewById(R.id.add_child_button);
 		addChildButton.setOnClickListener(new OnClickListener() {
@@ -250,9 +230,9 @@ public class ParentZoneActivity extends Activity {
 			List<Pair<Double, Double>> statsList = statsTask.get();
 			
 			// Current child is first in the list
-			double currentChildCorrect = statsList.get(0).first;
-			double currentChildTotal = statsList.get(0).second;
-			double currentChildPercent = currentChildCorrect / currentChildTotal;
+			Double currentChildCorrect = statsList.get(0).first;
+			Double currentChildTotal = statsList.get(0).second;
+			Double currentChildPercent = currentChildCorrect / currentChildTotal * 100;
 			
 			
 			// Get the rest of the users' percentages
@@ -269,8 +249,14 @@ public class ParentZoneActivity extends Activity {
 				}
 			}
 			
-			double currentChildPercentile = betterThan / percents.size();
+			Double currentChildPercentile = betterThan / percents.size() * 100;
 			
+			// Update displayed stats info
+			totalText.setText(Integer.toString(currentChildTotal.intValue()));
+			percentageText.setText(currentChildPercent.toString());
+			percentileText.setText(currentChildPercentile.toString());
+			percentageBar.setProgress(currentChildPercent.intValue());
+			percentileBar.setProgress(currentChildPercentile.intValue());
 			
 			
 			
@@ -292,7 +278,7 @@ public class ParentZoneActivity extends Activity {
 			
 			String URL = "http://cmsc436.afh.co/php/getchildren.php?username=" + params[0];
 			HttpGet request = new HttpGet(URL);
-			JSONResponseHandler responseHandler = new JSONResponseHandler();
+			JSONGetChildrenResponseHandler responseHandler = new JSONGetChildrenResponseHandler();
 			try {
 
 				return mClient.execute(request, responseHandler);
@@ -317,7 +303,7 @@ public class ParentZoneActivity extends Activity {
 		}
 	}
     
-    private class JSONResponseHandler implements ResponseHandler<List<String>> {
+    private class JSONGetChildrenResponseHandler implements ResponseHandler<List<String>> {
 
 		@Override
 		public List<String> handleResponse(HttpResponse response)
