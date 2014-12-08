@@ -8,12 +8,11 @@ import android.content.Intent;
 public class AlarmReceiver extends BroadcastReceiver {
 
 	NotificationManager notificationManager;
-	
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
 		Intent service1 = new Intent(context, AlarmService.class);
-        context.startService(service1);
+		context.startService(service1);
 	}
 
 }

@@ -14,7 +14,7 @@
         android:id="@+id/math_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/math_string"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:text="@string/math_string" />
 
 </RelativeLayout>

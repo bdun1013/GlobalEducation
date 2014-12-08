@@ -3,37 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <TextView android:id="@+id/parent_account_screen_instructions"
+
+    <TextView
+        android:id="@+id/parent_account_screen_instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/account_info_string"
-        android:textSize="20sp"/>
-    
-    <EditText android:id="@+id/parent_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/new_username_string"/>
-    
-    <EditText android:id="@+id/parent_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/new_password_string"/>
-    
-    <EditText android:id="@+id/parent_confirm_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/new_password_confirm_string"/>
+        android:textSize="20sp" />
 
-    <Button android:id="@+id/parent_confirm_new_account_button"
+    <EditText
+        android:id="@+id/parent_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/create_par_acc_string"/>
-    
-    <Button android:id="@+id/parent_cancel_button"
+        android:hint="@string/new_username_string" />
+
+    <EditText
+        android:id="@+id/parent_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/cancel_string"/>
+        android:hint="@string/new_password_string"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/parent_confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/new_password_confirm_string"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/parent_confirm_new_account_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_par_acc_string" />
+
+    <Button
+        android:id="@+id/parent_cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_string" />
+
 </LinearLayout>

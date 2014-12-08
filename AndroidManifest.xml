@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.globaleducation"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="18"
-        android:targetSdkVersion="18" />
-   
-    <uses-permission android:name="android.permission.INTERNET" > </uses-permission>
-    
+        android:targetSdkVersion="18"
+        tools:ignore="OldTargetApi" />
+
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo" >
-        
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name" >
@@ -25,33 +27,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity 
+        <activity
             android:name=".CreateChildAccountActivity"
-            android:label="Create Child Account">
+            android:label="Create Child Account" >
         </activity>
-        
         <activity
             android:name=".DailyQuestionsActivity"
-            android:label="Daily Questions">
+            android:label="Daily Questions" >
         </activity>
-        
-        <activity 
+        <activity
             android:name=".QuestionActivity"
-            android:label="Question">
-            
+            android:label="Question" >
         </activity>
-        
-        <activity android:name=".ParentZoneActivity"
-            android:label="Parent Zone">
-            
+        <activity
+            android:name=".ParentZoneActivity"
+            android:label="Parent Zone" >
         </activity>
-        
-        <activity android:name=".CreateParentAccountActivity"
-            android:label="Create Parent Account"/>
-        
-        <receiver android:name=".AlarmReceiver" android:enabled="true"/>
-        <service android:name=".AlarmService"/>
+        <activity
+            android:name=".CreateParentAccountActivity"
+            android:label="Create Parent Account" />
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true" />
+
+        <service android:name=".AlarmService" />
     </application>
 
 </manifest>
