@@ -1,6 +1,7 @@
 package com.example.globaleducation;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.ArrayList;
@@ -239,7 +240,7 @@ public class ParentZoneActivity extends Activity {
 			List<Double> percents = new ArrayList<Double>();
 			for (int i = 1; i < statsList.size(); i++) {
 				Pair<Double,Double> user = statsList.get(i);
-				percents.add(user.first / user.second);
+				percents.add(user.first / user.second * 100);
 			}
 			
 			// Calculate the current child's percentile
@@ -254,8 +255,8 @@ public class ParentZoneActivity extends Activity {
 			
 			// Update displayed stats info
 			totalText.setText(Integer.toString(currentChildTotal.intValue()));
-			percentageText.setText(currentChildPercent.toString());
-			percentileText.setText(currentChildPercentile.toString());
+			percentageText.setText(new DecimalFormat("##.##").format(currentChildPercent) + " %");
+			percentileText.setText(new DecimalFormat("##.##").format(currentChildPercentile) + " %");
 			percentageBar.setProgress(currentChildPercent.intValue());
 			percentileBar.setProgress(currentChildPercentile.intValue());
 			

@@ -38,13 +38,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/statistics_button"
         android:text="@string/total_questions_string"
+        android:layout_marginTop="10dp"
         android:textSize="15sp"/>
     
     <TextView android:id="@+id/total_questions_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/statistics_button"
         android:layout_toRightOf="@id/total_questions_info_text"
         android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:textStyle="bold"/>
     
     <TextView android:id="@+id/percentage_info_text"
@@ -59,7 +63,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/percentage_info_text"
+        android:layout_below="@id/total_questions_info_text"
         android:textSize="15sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:textStyle="bold"/>
     
     <ProgressBar android:id="@+id/percentage_progress_bar"
@@ -81,6 +88,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/percentile_info_text"
+        android:layout_below="@id/percentage_progress_bar"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:textSize="15sp"
         android:textStyle="bold"/>
     
