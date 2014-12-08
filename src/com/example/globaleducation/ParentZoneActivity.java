@@ -112,6 +112,7 @@ public class ParentZoneActivity extends Activity {
 				builder.setPositiveButton(R.string.add_child_string,
 						new DialogInterface.OnClickListener() {
 
+							@SuppressWarnings("unchecked")
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
@@ -122,6 +123,7 @@ public class ParentZoneActivity extends Activity {
 
 								new ChildParentLinkGetTask().execute(
 										parentUsername, childUsername);
+								((ArrayAdapter<String>) childSpinner.getAdapter()).add(childUsername);
 							}
 
 						});
@@ -183,7 +185,7 @@ public class ParentZoneActivity extends Activity {
 
 				JSONArray responseArray = (JSONArray) new JSONTokener(
 						JSONResponse).nextValue();
-				
+
 				JSONObject user = (JSONObject) responseArray.get(0);
 				if (!user.isNull("correct")) {
 					Double numCorrect = Double.parseDouble(user
@@ -191,11 +193,9 @@ public class ParentZoneActivity extends Activity {
 					Double numTotal = Double.parseDouble(user
 							.getString("total"));
 
-					result.add(new Pair<Double, Double>(numCorrect,
-							numTotal));
-				}
-				else {
-					result.add(new Pair<Double,Double>(null,null));
+					result.add(new Pair<Double, Double>(numCorrect, numTotal));
+				} else {
+					result.add(new Pair<Double, Double>(null, null));
 				}
 
 				for (int i = 1; i < responseArray.length(); i++) {
@@ -249,69 +249,78 @@ public class ParentZoneActivity extends Activity {
 			mClient.close();
 			Toast.makeText(ParentZoneActivity.this, "Child Account Linked",
 					Toast.LENGTH_LONG).show();
-			finish();
-
 		}
 	}
 
 	private void updateStats() {
 		StatsGetTask statsTask = new StatsGetTask();
 
-		String childUsername = childSpinner.getSelectedItem().toString();
-		String locationType = rangeSpinner.getSelectedItem().toString();
+		if (childSpinner.getSelectedItem() == null) {
+			Toast.makeText(
+					getApplicationContext(),
+					"No children linked yet, please click the Add Child button",
+					Toast.LENGTH_LONG).show();
+		} else {
+			String childUsername = childSpinner.getSelectedItem().toString();
+			String locationType = rangeSpinner.getSelectedItem().toString();
 
-		statsTask.execute(childUsername, locationType);
+			statsTask.execute(childUsername, locationType);
 
-		try {
-			List<Pair<Double, Double>> statsList = statsTask.get();
+			try {
+				List<Pair<Double, Double>> statsList = statsTask.get();
 
-			// Current child is first in the list
-			Double currentChildCorrect = statsList.get(0).first;
-			
-			if (currentChildCorrect == null) {
-				Toast.makeText(getApplicationContext(), "This child has not answered any questions", Toast.LENGTH_LONG).show();
-				totalText.setText("0");
-				percentageText.setText("0.00 %");
-				percentileText.setText("0.00 %");
-				percentageBar.setProgress(0);
-				percentileBar.setProgress(0);
-				return;
-			}
-			
-			Double currentChildTotal = statsList.get(0).second;
-			Double currentChildPercent = currentChildCorrect
-					/ currentChildTotal * 100;
+				// Current child is first in the list
+				Double currentChildCorrect = statsList.get(0).first;
 
-			// Get the rest of the users' percentages
-			List<Double> percents = new ArrayList<Double>();
-			for (int i = 1; i < statsList.size(); i++) {
-				Pair<Double, Double> user = statsList.get(i);
-				percents.add(user.first / user.second * 100);
-			}
-
-			// Calculate the current child's percentile
-			double betterThan = 0;
-			for (Double userPercent : percents) {
-				if (currentChildPercent > userPercent) {
-					betterThan++;
+				if (currentChildCorrect == null) {
+					Toast.makeText(getApplicationContext(),
+							"This child has not answered any questions",
+							Toast.LENGTH_LONG).show();
+					totalText.setText("0");
+					percentageText.setText("0.00 %");
+					percentileText.setText("0.00 %");
+					percentageBar.setProgress(0);
+					percentileBar.setProgress(0);
+					return;
 				}
+
+				Double currentChildTotal = statsList.get(0).second;
+				Double currentChildPercent = currentChildCorrect
+						/ currentChildTotal * 100;
+
+				// Get the rest of the users' percentages
+				List<Double> percents = new ArrayList<Double>();
+				for (int i = 1; i < statsList.size(); i++) {
+					Pair<Double, Double> user = statsList.get(i);
+					percents.add(user.first / user.second * 100);
+				}
+
+				// Calculate the current child's percentile
+				double betterThan = 0;
+				for (Double userPercent : percents) {
+					if (currentChildPercent > userPercent) {
+						betterThan++;
+					}
+				}
+
+				Double currentChildPercentile = betterThan / percents.size()
+						* 100;
+
+				// Update displayed stats info
+				totalText
+						.setText(Integer.toString(currentChildTotal.intValue()));
+				percentageText.setText(new DecimalFormat("##.##")
+						.format(currentChildPercent) + " %");
+				percentileText.setText(new DecimalFormat("##.##")
+						.format(currentChildPercentile) + " %");
+				percentageBar.setProgress(currentChildPercent.intValue());
+				percentileBar.setProgress(currentChildPercentile.intValue());
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
 			}
-
-			Double currentChildPercentile = betterThan / percents.size() * 100;
-
-			// Update displayed stats info
-			totalText.setText(Integer.toString(currentChildTotal.intValue()));
-			percentageText.setText(new DecimalFormat("##.##")
-					.format(currentChildPercent) + " %");
-			percentileText.setText(new DecimalFormat("##.##")
-					.format(currentChildPercentile) + " %");
-			percentageBar.setProgress(currentChildPercent.intValue());
-			percentileBar.setProgress(currentChildPercentile.intValue());
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -379,6 +388,8 @@ public class ParentZoneActivity extends Activity {
 
 			} catch (JSONException e) {
 				e.printStackTrace();
+			} catch (ClassCastException e) {
+				return result;
 			}
 
 			return result;
