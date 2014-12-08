@@ -15,7 +15,7 @@
     <string name="new_name_string">Enter Student\'s First Name</string>
     <string name="grade_select_text">Select your grade level:</string>
     <string name="cancel_string">Cancel</string>
-    <string name="math_string">Go To Daily Question</string>
+    <string name="math_string">Go To Question</string>
     <string name="science_string">Science</string>
     <string name="english_string">English</string>
     <string name="history_string">History</string>
