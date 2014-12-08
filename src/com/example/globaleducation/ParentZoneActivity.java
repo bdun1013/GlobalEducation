@@ -186,12 +186,16 @@ public class ParentZoneActivity extends Activity {
 
 				for (int i = 0; i < responseArray.length(); i++) {
 					JSONObject user = (JSONObject) responseArray.get(i);
-					Double numCorrect = Double.parseDouble(user
-							.getString("correct"));
-					Double numTotal = Double.parseDouble(user
-							.getString("total"));
+					if (!user.isNull("correct")) {
+						Double numCorrect = Double.parseDouble(user
+								.getString("correct"));
+						Double numTotal = Double.parseDouble(user
+								.getString("total"));
 
-					result.add(new Pair<Double, Double>(numCorrect, numTotal));
+						result.add(new Pair<Double, Double>(numCorrect,
+								numTotal));
+					}
+
 				}
 
 			} catch (JSONException e) {
