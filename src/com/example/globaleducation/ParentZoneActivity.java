@@ -183,9 +183,23 @@ public class ParentZoneActivity extends Activity {
 
 				JSONArray responseArray = (JSONArray) new JSONTokener(
 						JSONResponse).nextValue();
+				
+				JSONObject user = (JSONObject) responseArray.get(0);
+				if (!user.isNull("correct")) {
+					Double numCorrect = Double.parseDouble(user
+							.getString("correct"));
+					Double numTotal = Double.parseDouble(user
+							.getString("total"));
 
-				for (int i = 0; i < responseArray.length(); i++) {
-					JSONObject user = (JSONObject) responseArray.get(i);
+					result.add(new Pair<Double, Double>(numCorrect,
+							numTotal));
+				}
+				else {
+					result.add(new Pair<Double,Double>(null,null));
+				}
+
+				for (int i = 1; i < responseArray.length(); i++) {
+					user = (JSONObject) responseArray.get(i);
 					if (!user.isNull("correct")) {
 						Double numCorrect = Double.parseDouble(user
 								.getString("correct"));
@@ -253,6 +267,17 @@ public class ParentZoneActivity extends Activity {
 
 			// Current child is first in the list
 			Double currentChildCorrect = statsList.get(0).first;
+			
+			if (currentChildCorrect == null) {
+				Toast.makeText(getApplicationContext(), "This child has not answered any questions", Toast.LENGTH_LONG).show();
+				totalText.setText("0");
+				percentageText.setText("0.00 %");
+				percentileText.setText("0.00 %");
+				percentageBar.setProgress(0);
+				percentileBar.setProgress(0);
+				return;
+			}
+			
 			Double currentChildTotal = statsList.get(0).second;
 			Double currentChildPercent = currentChildCorrect
 					/ currentChildTotal * 100;
