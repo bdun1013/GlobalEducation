@@ -137,9 +137,8 @@ public class DailyQuestionsActivity extends Activity {
 			i.putExtra("ChoiceC", result.get(3));
 			i.putExtra("ChoiceD", result.get(4));
 			i.putExtra("Correct", result.get(5));
-			i.putExtra("Category", result.get(6));
-			i.putExtra("QuestionID", result.get(7));
-			i.putExtra("Username", result.get(8));
+			i.putExtra("QuestionID", result.get(6));
+			i.putExtra("Username", result.get(7));
 
 			startActivity(i);
 		}
