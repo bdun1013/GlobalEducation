@@ -50,8 +50,8 @@ public class QuestionActivity extends Activity {
 
 				@Override
 				public void onClick(View v) {
-					String isCorrect = isAnswerCorrect(correctChoice) ? "Y"
-							: "N";
+					String isCorrect = isAnswerCorrect(correctChoice) ? "1"
+							: "0";
 
 					new SubmitQuestionGetTask().execute(username, questionID,
 							isCorrect);
@@ -59,7 +59,7 @@ public class QuestionActivity extends Activity {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							QuestionActivity.this);
 
-					if (isCorrect.equals("Y")) {
+					if (isCorrect.equals("1")) {
 						builder.setTitle("Correct!");
 					}
 
